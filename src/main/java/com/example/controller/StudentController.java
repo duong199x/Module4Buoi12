@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.example.model.Student;
-import com.example.service.IClassRoomService;
 import com.example.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -62,4 +61,12 @@ public class StudentController {
         return new ResponseEntity<>(student.get(), HttpStatus.OK);
     }
 
+    @PostMapping("/findstudentbytutor")
+    public ResponseEntity<List<Student>> findByTutor(@RequestBody List<Long> turtorsId) {
+        List<Student> students = (List<Student>) iStudentService.findStudentByTutors(turtorsId);
+        if (students.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(students, HttpStatus.OK);
+    }
 }
